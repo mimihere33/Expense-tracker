@@ -1,10 +1,12 @@
+setuptools==68.2.2
+wheel==0.41.2
+
 Flask==3.0.0
 Flask-SQLAlchemy==3.1.1
 Flask-Login==0.6.3
 psycopg2-binary==2.9.9
 Werkzeug==3.0.1
 
-# data / ml (STABLE)
 numpy==1.25.2
 pandas==1.5.3
 scikit-learn==1.2.2
