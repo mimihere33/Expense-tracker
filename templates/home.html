@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="stars">
+        <h1>Welcome to Expense Tracker 💰</h1>
+        <div class="button-container">
+            <a href="{{ url_for('log') }}" class="btn">Log an Expense</a>
+            <a href="{{ url_for('analysis') }}" class="btn">View Analytics</a>
+        </div>
+    </div>
+</body>
+</html>

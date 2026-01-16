@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Welcome Back!</h1>
+                <p>Sign in to track your expenses</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="auth-form">
+                <div class="form-group">
+                    <label for="email">
+                        <span class="icon">📧</span>
+                        Email Address
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email"
+                        name="email" 
+                        placeholder="your.email@example.com" 
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <span class="icon">🔒</span>
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password"
+                        name="password" 
+                        placeholder="Enter your password" 
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="{{ url_for('signup') }}" class="link">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

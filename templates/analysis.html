@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Analytics 📊</title>
+    <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="stars">
+        <h1>✨ Expense Analytics ✨</h1>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="card">
+                <div class="card-emoji">🌸</div>
+                <div class="card-label">Today</div>
+                <div class="card-value">₹{{ "%.2f"|format(today_total) }}</div>
+            </div>
+            <div class="card">
+                <div class="card-emoji">🌙</div>
+                <div class="card-label">This Month</div>
+                <div class="card-value">₹{{ "%.2f"|format(month_total) }}</div>
+            </div>
+            <div class="card">
+                <div class="card-emoji">⭐</div>
+                <div class="card-label">This Year</div>
+                <div class="card-value">₹{{ "%.2f"|format(year_total) }}</div>
+            </div>
+            <div class="card">
+                <div class="card-emoji">💖</div>
+                <div class="card-label">Overall</div>
+                <div class="card-value">₹{{ "%.2f"|format(overall_total) }}</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <div class="chart-box">
+                <h2>🥧 By Category</h2>
+                <div id="pie-chart"></div>
+            </div>
+
+            <div class="chart-box">
+                <h2>📊 Total Spending</h2>
+                <div id="bar-chart"></div>
+            </div>
+        </div>
+
+        <div class="chart-box full-width">
+            <h2>📈 Daily Trends</h2>
+            <div class="filter-section">
+                <label for="line-type">Category:</label>
+                <select id="line-type" onchange="updateLineChart()">
+                    <option value="all">All Categories</option>
+                    {% for cat in percentages.keys() %}
+                    <option value="{{ cat }}">{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="line-chart"></div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="breakdown">
+            <h2>💝 Category Breakdown</h2>
+            <div class="breakdown-grid">
+                {% for label, perc in percentages.items() %}
+                <div class="breakdown-item">
+                    <span class="breakdown-label">{{ label }}</span>
+                    <span class="breakdown-percent">{{ perc }}%</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="btn back-btn">🏠 Back Home</a>
+    </div>
+
+<script>
+    // Parse the JSON data from Flask
+    const pieData = JSON.parse('{{ pie_json | safe }}');
+    const barData = JSON.parse('{{ bar_json | safe }}');
+    const lineData = JSON.parse('{{ line_json | safe }}');
+
+    // Cute color palette
+    const cuteColors = ['#FFB3D9', '#C9A0DC', '#A0DCF5', '#FFE5B4', '#B4E7CE', '#FFD4E5', '#E5D4FF'];
+
+    // Render Pie Chart
+    const pieLayout = {
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { family: 'Arial, sans-serif', size: 12 },
+        margin: { t: 20, b: 20, l: 20, r: 20 },
+        showlegend: true,
+        legend: { orientation: 'v', x: 1, y: 1 }
+    };
+    
+    pieData.data[0].marker = { colors: cuteColors };
+    pieData.data[0].textinfo = 'label+percent';
+    pieData.data[0].hoverinfo = 'label+value+percent';
+    
+    Plotly.newPlot('pie-chart', pieData.data, pieLayout, {responsive: true});
+
+    // Render Bar Chart
+    const barLayout = {
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { family: 'Arial, sans-serif', size: 12 },
+        margin: { t: 20, b: 60, l: 60, r: 20 },
+        xaxis: { title: '' },
+        yaxis: { title: 'Amount (₹)' }
+    };
+    
+    barData.data[0].marker = { color: cuteColors };
+    
+    Plotly.newPlot('bar-chart', barData.data, barLayout, {responsive: true});
+
+    // Render Line Chart
+    const allLineData = lineData.data;
+    const lineLayout = {
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { family: 'Arial, sans-serif', size: 12 },
+        margin: { t: 20, b: 60, l: 60, r: 20 },
+        xaxis: { title: 'Date' },
+        yaxis: { title: 'Amount (₹)' },
+        showlegend: true
+    };
+
+    function updateLineChart() {
+        const selected = document.getElementById('line-type').value;
+        let filtered;
+        
+        if (selected === 'all') {
+            filtered = allLineData;
+        } else {
+            filtered = allLineData.filter(d => d.name === selected);
+            if (filtered.length === 0) {
+                filtered = [{ x: [], y: [], type: 'scatter', mode: 'lines+markers', name: selected }];
+            }
+        }
+        
+        // Assign colors to lines
+        filtered.forEach((trace, idx) => {
+            trace.line = { color: cuteColors[idx % cuteColors.length], width: 3 };
+            trace.marker = { size: 8 };
+        });
+        
+        Plotly.newPlot('line-chart', filtered, lineLayout, {responsive: true});
+    }
+
+    // Initialize with all categories
+    updateLineChart();
+</script>
+
+</body>
+</html>

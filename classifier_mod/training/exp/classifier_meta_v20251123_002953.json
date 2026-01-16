@@ -1,0 +1,87 @@
+{
+  "model": "mod/classifier_v20251123_002953.joblib",
+  "timestamp": "20251123_002953",
+  "train_samples": 62791,
+  "accuracy": 0.8893725448561418,
+  "class_report": {
+    "Auto": {
+      "precision": 0.9003021148036254,
+      "recall": 0.9754500818330606,
+      "f1-score": 0.9363707776904949,
+      "support": 611.0
+    },
+    "Baby": {
+      "precision": 0.7050561797752809,
+      "recall": 0.8655172413793103,
+      "f1-score": 0.7770897832817337,
+      "support": 290.0
+    },
+    "Clothes": {
+      "precision": 0.9889064976228209,
+      "recall": 0.9531568228105907,
+      "f1-score": 0.9707026186155043,
+      "support": 1964.0
+    },
+    "Electronics": {
+      "precision": 0.9423076923076923,
+      "recall": 0.9956458635703919,
+      "f1-score": 0.9682427664079041,
+      "support": 689.0
+    },
+    "Entertainment": {
+      "precision": 0.8868534482758621,
+      "recall": 0.7522851919561243,
+      "f1-score": 0.8140454995054401,
+      "support": 1094.0
+    },
+    "Food": {
+      "precision": 0.962010288880095,
+      "recall": 0.9328472755180353,
+      "f1-score": 0.9472043639197351,
+      "support": 2606.0
+    },
+    "Home": {
+      "precision": 0.9030303030303031,
+      "recall": 0.7916174734356553,
+      "f1-score": 0.843661528782636,
+      "support": 1694.0
+    },
+    "Kids": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "Medical": {
+      "precision": 0.8066298342541437,
+      "recall": 0.863905325443787,
+      "f1-score": 0.8342857142857143,
+      "support": 169.0
+    },
+    "Personal_Care": {
+      "precision": 0.9220183486238532,
+      "recall": 0.7790697674418605,
+      "f1-score": 0.8445378151260504,
+      "support": 258.0
+    },
+    "Pets": {
+      "precision": 0.9090909090909091,
+      "recall": 0.6976744186046512,
+      "f1-score": 0.7894736842105263,
+      "support": 43.0
+    },
+    "accuracy": 0.8893725448561418,
+    "macro avg": {
+      "precision": 0.8114732378785987,
+      "recall": 0.7824699510903151,
+      "f1-score": 0.7932376865296127,
+      "support": 9419.0
+    },
+    "weighted avg": {
+      "precision": 0.9306991346432248,
+      "recall": 0.8893725448561418,
+      "f1-score": 0.9079555345966576,
+      "support": 9419.0
+    }
+  }
+}
