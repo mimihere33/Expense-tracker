@@ -14,7 +14,8 @@ import plotly.graph_objs as go
 import joblib
 
 # Load environment variables
-load_dotenv()
+if os.environ.get("RENDER") is None:
+    load_dotenv()
 
 from extensions import db
 from models import Expense, User 
@@ -56,7 +57,8 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 # Load ML classifier
-MODEL_PATH = 'classifier_mod\mod\classifier_latest.joblib'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "mod", "classifier_latest.joblib")
 classifier = None
 try:
     classifier = joblib.load(MODEL_PATH)
@@ -65,10 +67,9 @@ except Exception as e:
     print(f"⚠ Classifier not loaded: {e}")
 
 # Create tables if they don't exist
-if os.environ.get('FLASK_ENV') != 'production':
-    with app.app_context():
-        db.create_all()
-    print("✓ Database tables created")
+with app.app_context():
+    db.create_all()
+
 
 # ---------------- AUTH ROUTES ---------------- #
 
@@ -385,11 +386,11 @@ def predict_category():
 # Error handlers
 @app.errorhandler(404)
 def not_found(e):
-    return render_template('404.html'), 404
+    return "Not Found", 404
 
 @app.errorhandler(500)
 def server_error(e):
-    return render_template('500.html'), 500
+    return "Not Found", 404
 
 
 if __name__ == '__main__':
