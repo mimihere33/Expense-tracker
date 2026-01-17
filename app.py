@@ -70,6 +70,10 @@ if os.path.exists(MODEL_PATH):
     try:
         classifier = joblib.load(MODEL_PATH)
         print("✓ Classifier loaded successfully")
+        print("MODEL PATH:", MODEL_PATH)
+        print("Model exists:", os.path.exists(MODEL_PATH))
+        print("Classifier steps:", getattr(classifier, "steps", None))
+
     except Exception as e:
         print("⚠ Failed to load classifier:", e)
 else:
