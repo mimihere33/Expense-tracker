@@ -58,13 +58,22 @@ def load_user(user_id):
 
 # Load ML classifier
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "mod", "classifier_latest.joblib")
+MODEL_PATH = os.path.join(
+    BASE_DIR,
+    "classifier_mod",
+    "mod",
+    "classifier_latest.joblib"
+)
 classifier = None
-try:
-    classifier = joblib.load(MODEL_PATH)
-    print(f"✓ Loaded classifier: {MODEL_PATH}")
-except Exception as e:
-    print(f"⚠ Classifier not loaded: {e}")
+
+if os.path.exists(MODEL_PATH):
+    try:
+        classifier = joblib.load(MODEL_PATH)
+        print("✓ Classifier loaded successfully")
+    except Exception as e:
+        print("⚠ Failed to load classifier:", e)
+else:
+    print(f"⚠ Model not found at {MODEL_PATH}")
 
 # Create tables if they don't exist
 with app.app_context():
